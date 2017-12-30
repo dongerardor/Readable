@@ -1,4 +1,5 @@
 export const ADD_POST = 'ADD_POST';
+export const ADD_USER = 'ADD_USER';
 
 export function addPost({author, title, content}){
   return {
@@ -8,3 +9,11 @@ export function addPost({author, title, content}){
   	content,
   }
 };
+
+
+export function addUser({name}){
+	return {
+		type: ADD_USER,
+		name
+	}
+}

@@ -1,38 +1,15 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import logo from '../logo.svg';
+import { connect } from 'react-redux';
 import './App.css';
-import {  addPost } from '../actions'
+import { addPost } from '../actions'
 
 class App extends Component {
 
-  state = {
-    post: null
-  }
-
-  componentDidMount(){
-
-    const { store } = this.props;
-
-    store.subscribe(() => {
-      this.setState(() => ({
-        post: store.getState()
-      }))
-    })
-
-  }
-
-  submitAction = () => {
-    this.props.store.dispatch(addPost({
-      author: 'author1',
-      title: 'title1',
-      content: this.input.value,
-    }))
-
-    this.input.value = '';
-  }
 
   render() {
+    
+    console.log('Props', this.props);
+
     return (
       <div className="App">
         <input
@@ -43,11 +20,21 @@ class App extends Component {
         />
         <button onClick={this.submitAction}>Submit action</button>
         <pre>
-          Rastaman vibration yeah: {this.state.post}
+          Rastaman vibration yeah
         </pre>
       </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps (post) {
+  return post;
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    addPost: (post) => dispatch(addPost(post))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
