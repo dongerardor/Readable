@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 
 import {
   ADD_POST,
-  ADD_USER
+  ADD_USER,
+  GET_POSTS,
 } from '../actions'
 
 
@@ -18,7 +19,7 @@ const initialUserState = {
   user: 'xx'
 }
 
-function addPost (state = initialPostState, action) {
+function post (state = initialPostState, action) {
   if (action.type === ADD_POST) {
     return {
       ...state,
@@ -29,7 +30,7 @@ function addPost (state = initialPostState, action) {
   return state;
 }
 
-function addUser (state = initialUserState, action) {
+function user (state = initialUserState, action) {
   if (action.type === ADD_USER) {
     return {
       ...state,
@@ -40,7 +41,17 @@ function addUser (state = initialUserState, action) {
   return state;
 }
 
+function posts(state = [], action) {
+    switch (action.type) {
+        case 'GET_POSTS':
+            return action.posts;
+        default:
+            return state;
+    }
+}
+
 export default combineReducers({
-  addPost,
-  addUser,
+  post,
+  user,
+  posts,
 });
