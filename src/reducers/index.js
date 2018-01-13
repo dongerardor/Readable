@@ -1,57 +1,77 @@
 import { combineReducers } from 'redux';
 
 import {
-  ADD_POST,
-  ADD_USER,
-  GET_POSTS,
+	GET_POSTS,
+	GET_CATEGORIES,
+	GET_CATEGORY_POSTS,
 } from '../actions'
 
-
-const initialPostState = {
-  post: {
-    author: null,
-    title: null,
-    content: null,
-  },
-}
-
-const initialUserState = {
-  user: 'xx'
-}
-
-function post (state = initialPostState, action) {
-  if (action.type === ADD_POST) {
-    return {
-      ...state,
-      'title': 'Titulo 1'
-    };
-  }
-
-  return state;
-}
-
-function user (state = initialUserState, action) {
-  if (action.type === ADD_USER) {
-    return {
-      ...state,
-      'user': 'User xxxx 1'
-    };
-  }
-
-  return state;
-}
-
 function posts(state = [], action) {
-    switch (action.type) {
-        case 'GET_POSTS':
-            return action.posts;
-        default:
-            return state;
-    }
+		switch (action.type) {
+				case 'GET_POSTS':
+					return action.posts;
+					break;
+				case 'GET_CATEGORY_POSTS':
+					return action.category;
+					break;
+				default:
+						return state;
+		}
+}
+
+function categories(state = [], action) {
+		switch (action.type) {
+				case 'GET_CATEGORIES':
+						return action.categories.categories;
+				default:
+						return state;
+		}
 }
 
 export default combineReducers({
-  post,
-  user,
-  posts,
+	posts,
+	categories,
 });
+
+
+/*
+function getCategoryPosts(state = [], action) {
+		switch (action.type) {
+				case 'GET_CATEGORY_POSTS':
+					//return action.category;
+					return {
+		        ...state,
+		        'posts': action.category
+		    	}
+				default:
+					return state;
+		}
+}
+
+
+function calendar (state = initialCalendarState, action) {
+  const { day, recipe, meal } = action
+
+  switch (action.type) {
+    case ADD_RECIPE :
+      return {
+        ...state,
+        [day]: {
+          ...state[day],
+          [meal]: recipe.label,
+        }
+      }
+    case REMOVE_FROM_CALENDAR :
+      return {
+        ...state,
+        [day]: {
+          ...state[day],
+          [meal]: null,
+        }
+      }
+    default :
+      return state
+  }
+}
+
+*/

@@ -2,76 +2,34 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import { fetchPosts } from '../actions'
-import { Link, Route } from 'react-router-dom';
 
 class PostsList extends Component {
-	
-	constructor(props) {
-    super(props);
-    const { posts } = props;
-    this.state = {
-      posts
-    };
-  }
 
 	componentDidMount() {
-		//this.props.fetchPosts();
-  }
-/*
-  componentWillReceiveProps(nextProps) {
-    this.setState({ posts: nextProps });
-  }
-*/
-
-		//let posts = fetchPosts();
-		
-
-
-		/*
-		posts().then((response) => {
-			console.log('response: ', response);
-			return response
-		});
-		
-		console.log('posts', posts);
-
-		//posts.then((response) => response);
-
-			.then((response) => response.json())
-      .then((posts) => dispatch(postsFetchDataSuccess(posts));
-
+    	this.props.fetchPosts();
 	}
-*/
 
+	render() {
+  		return (
+			<div className="postList">
+				<h1>This is PostsList</h1>
 
-
-  render() {
-
-  	debugger;
-
-		return (
-		  <div className="postList">
-		  	<h1>This is PostsList</h1>
-				<p>Props: { this.props.posts }</p>
-		  </div>
+        		<ul className='postsList'>
+					{this.props.posts.map((post) => (
+						<li key={post.id} className='postTitle'>
+							{post.title}
+						</li>
+					))}
+				</ul>
+			</div>
 		);
-  }
+  	}
 }
 
-//const mapStateToProps = (state, ownProps) => { posts: state.posts };
+function mapStateToProps (props) {
+  return props;
+}
 
-//const mapDispatchToProps = { fetchPosts };
+const mapDispatchToProps = { fetchPosts };
 
-export default PostsList;
-
-/*
-
-
-const mapStateToProps = (state, ownProps) => ({
-	debugger;
-	return { posts: state.posts }
-});
-const mapDispatchToProps = { getRepos, clearRepos };
-const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
-
-export default AppContainer;*/
+export default PostsList = connect(mapStateToProps, mapDispatchToProps)(PostsList);

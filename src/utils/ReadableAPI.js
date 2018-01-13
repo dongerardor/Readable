@@ -2,7 +2,6 @@ const headers = {
   'Authorization': 'local_user'
 }
 
-
 export const fetchCategories = () => fetch('/categories', { headers });
 export const fetchPosts = () => fetch('/posts', { headers });
 
