@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import { fetchPosts } from '../actions'
+import PostListItem from './PostListItem'
 
 class PostsList extends Component {
 
@@ -11,13 +12,11 @@ class PostsList extends Component {
 
 	render() {
   		return (
-			<div className="postList">
-				<h1>This is PostsList</h1>
-
+			<div>
         		<ul className='postsList'>
 					{this.props.posts.map((post) => (
-						<li key={post.id} className='postTitle'>
-							{post.title}
+						<li key={post.id}>
+							<PostListItem post={post}/>
 						</li>
 					))}
 				</ul>

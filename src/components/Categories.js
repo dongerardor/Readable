@@ -5,34 +5,40 @@ import { fetchCategories, fetchPosts, fetchCategoryPosts } from '../actions'
 import { Link } from 'react-router-dom';
 
 class Categories extends Component {
-	
-/*	selectCategory = function(category){
-		console.log('selectCategory');
-	}*/
+
+	constructor(props) {
+		super(props);
+    	this.state = { currentCategory: '' };
+  	}
 
 	componentDidMount() {
 		this.props.fetchCategories();
 	}
 
+	selectCategory(category) {
+		this.setState({ currentCategory: category });
+		!!category ? this.props.selectCategory(category) : this.props.selectAllCategories();
+	}
+
 	render() {
 		return (
-			<div className="categories">
-				<h4>Categories</h4>
+			<div className='container'>
 				<ul className='categories'>
 					{this.props.categories.map((category) => (
 					<li 
 						key={category.name}
-						className='categoryName'
 					>
-						<button onClick={() => this.props.selectCategory(category.name)}>
+						<button 
+							className={'categoryButton ' + (this.state.currentCategory === category.name ? ' selected' : '')}
+							onClick={() => this.selectCategory(category.name)}>
 							{category.name}
 						</button>
 					</li>
 				  ))}
-				  <li 
-						className='categoryName'
-					>
-						<button onClick={() => this.props.selectAllCategories()}>
+				  <li>
+						<button 
+							className={'categoryButton ' + (this.state.currentCategory === "" ? ' selected' : '')}
+							onClick={() => this.selectCategory()}>
 							All posts
 						</button>
 					</li>
@@ -49,110 +55,11 @@ function mapStateToProps (props) {
 function mapDispatchToProps(dispatch) {
   	return {
     	fetchCategories: () => dispatch(fetchCategories()),
-    	selectCategory: (category) => dispatch(fetchCategoryPosts(category)),
+    	selectCategory: (category) => {
+    		dispatch(fetchCategoryPosts(category));
+    	},
     	selectAllCategories: () => dispatch(fetchPosts()),
 	};
 }
 
 export default Categories = connect(mapStateToProps, mapDispatchToProps)(Categories);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-function mapDispatchToProps(dispatch) {
-    return ({
-    	fetchCategories: () => {dispatch(fetchCategories)},
-    	selectCategory: function(category) {
-    						console.log('category: ', category)
-    					}
-    })
-}
-*/
-
-/*
-function mapDispatchToProps(dispatch) {
-    return({
-        sendTheAlert: () => {dispatch(ALERT_ACTION)}
-    })
-}
-*/
-
-
-
-
-//return dispatch(setCategory(category)
-
-
-/*
-const mapDispatchToProps = {
-    fetchCategories
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchCategories
-  }
-}
-*/
-
-
-
-
-
-
-//this.props.setCategory(category)
-
-/*const mapDispatchToProps = dispatch => ({
-  boundUpdateName: (name) => dispatch(updateName(name))
-});*/
-
-/*onClick={() => this.props.selectCategory(category.name)}*/

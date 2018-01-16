@@ -8,7 +8,6 @@ import { withRouter } from 'react-router'
 import PostsList from './PostsList'
 import Categories from './Categories'
 import Header from './Header'
-import Footer from './Footer'
 
 class App extends Component {
 
@@ -18,13 +17,9 @@ class App extends Component {
 
         <Header/>
 
-        <Categories/>
-
         <Route exact path='/' component={PostsList}/>
 
         <Route path='/category/:id' component={Categories}/>
-
-        <Footer/>
 
       </div>
     );
