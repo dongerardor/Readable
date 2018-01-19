@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import { fetchCategories, fetchPosts, fetchCategoryPosts } from '../actions'
-import { Link } from 'react-router-dom';
+import { fetchCategories } from '../actions'
+import { Link, Route } from 'react-router-dom';
+
 
 class Categories extends Component {
 
@@ -12,35 +13,32 @@ class Categories extends Component {
   	}
 
 	componentDidMount() {
+		debugger;
 		this.props.fetchCategories();
 	}
 
-	selectCategory(category) {
-		this.setState({ currentCategory: category });
-		!!category ? this.props.selectCategory(category) : this.props.selectAllCategories();
+	componentWillReceiveProps(nextProps){
+		const categorySelected = nextProps.match && nextProps.match.params&& nextProps.match.params.category || '';
+		this.setState({'currentCategory': categorySelected});
 	}
 
-	render() {
+	render() {		
 		return (
 			<div className='container'>
 				<ul className='categories'>
 					{this.props.categories.map((category) => (
 					<li 
 						key={category.name}
+						className={'categoryButton ' + (this.state.currentCategory === category.name ? ' selected' : '')}
 					>
-						<button 
-							className={'categoryButton ' + (this.state.currentCategory === category.name ? ' selected' : '')}
-							onClick={() => this.selectCategory(category.name)}>
-							{category.name}
-						</button>
+
+						<Link to={`/${category.name}`}>{category.name}</Link>
 					</li>
 				  ))}
-				  <li>
-						<button 
-							className={'categoryButton ' + (this.state.currentCategory === "" ? ' selected' : '')}
-							onClick={() => this.selectCategory()}>
-							All posts
-						</button>
+				  <li
+				  		className={'categoryButton ' + (this.state.currentCategory === "" ? ' selected' : '')}
+				  >
+						<Link to="/">All posts</Link>
 					</li>
 				</ul>
 			</div>
@@ -55,10 +53,6 @@ function mapStateToProps (props) {
 function mapDispatchToProps(dispatch) {
   	return {
     	fetchCategories: () => dispatch(fetchCategories()),
-    	selectCategory: (category) => {
-    		dispatch(fetchCategoryPosts(category));
-    	},
-    	selectAllCategories: () => dispatch(fetchPosts()),
 	};
 }
 

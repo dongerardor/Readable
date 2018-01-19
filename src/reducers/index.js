@@ -17,7 +17,6 @@ function posts(state = [], action) {
 			return action.category;
 			break;
 		case 'POST_POST_VOTE':
-			debugger;
 			const newState = state.map((post) => {
 				return post.id === action.vote.id ? action.vote : post
 			});

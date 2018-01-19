@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom';
-import Categories from './Categories'
 
 
 class Header extends Component {
@@ -10,7 +9,6 @@ class Header extends Component {
       <div className="header">
         <h1>Readable</h1>
         <hr/>
-        <Categories/>
       </div>
     );
   }

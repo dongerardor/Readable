@@ -6,9 +6,25 @@ import PostListItem from './PostListItem'
 
 class PostsList extends Component {
 
+	constructor(props) {
+		super(props);
+    	this.state = { currentCategory: '' };
+  	}
+
 	componentDidMount() {
-    	this.props.fetchPosts();
+		//const currentCategory = this.props.match.params.category;
+		//this.setState({currentCategory: currentCategory});		
+		debugger;
+    	this.props.fetchPosts(this.state.currentCategory);
 	}
+
+	componentWillReceiveProps(nextProps) {
+    	//nextProps.match.params.category
+		debugger;
+    	//this.setState({
+      	//	modified: nextProps.myProp + "IsSoModified"
+    	//});
+  	}
 
 	render() {
   		return (

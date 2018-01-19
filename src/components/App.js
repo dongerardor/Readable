@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 
-import { Link, Route } from 'react-router-dom';
-import { withRouter } from 'react-router'
+import { Link, Route, BrowserRouter } from 'react-router-dom';
+import { withRouter, Router} from 'react-router'
 
 import PostsList from './PostsList'
 import Categories from './Categories'
@@ -12,18 +12,36 @@ import Header from './Header'
 class App extends Component {
 
   render() {
+  	const ppp = Math.random();
     return (
-      <div className="App">
 
-        <Header/>
+      	<div className="App">
 
-        <Route exact path='/' component={PostsList}/>
+	        <Header/>
+	        
+			<Route 
+				exact path="/" 
+				render={(props) => (
+					<div>
+						<Categories {...props}/>
+						<PostsList {...props} /> }
+					</div>
+					)}
+			/>
 
-        <Route path='/category/:id' component={Categories}/>
+			<Route 
+				path="/:category" 
+				render={(props) => (
+					<div>
+						<Categories {...props}/>
+						<PostsList {...props} /> }
+					</div>
+					)}
+			/>
 
-      </div>
+		</div>
     );
   }
 }
 
-export default withRouter(App);
+export default App;
