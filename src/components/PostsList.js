@@ -1,29 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import { fetchPosts } from '../actions'
+import { fetchPosts, fetchCategoryPosts } from '../actions'
 import PostListItem from './PostListItem'
 
 class PostsList extends Component {
 
 	constructor(props) {
 		super(props);
-    	this.state = { currentCategory: '' };
   	}
 
-	componentDidMount() {
-		//const currentCategory = this.props.match.params.category;
-		//this.setState({currentCategory: currentCategory});		
-		debugger;
-    	this.props.fetchPosts(this.state.currentCategory);
-	}
-
 	componentWillReceiveProps(nextProps) {
-    	//nextProps.match.params.category
-		debugger;
-    	//this.setState({
-      	//	modified: nextProps.myProp + "IsSoModified"
-    	//});
+    	if (nextProps.match && nextProps.match.params && nextProps.match.params.category){
+    		this.props.fetchCategoryPosts(nextProps.match.params.category);
+    	} else {
+    		this.props.fetchPosts();
+    	}
   	}
 
 	render() {
@@ -45,6 +37,6 @@ function mapStateToProps (props) {
   return props;
 }
 
-const mapDispatchToProps = { fetchPosts };
+const mapDispatchToProps = { fetchPosts, fetchCategoryPosts };
 
 export default PostsList = connect(mapStateToProps, mapDispatchToProps)(PostsList);

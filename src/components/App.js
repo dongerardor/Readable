@@ -20,11 +20,11 @@ class App extends Component {
 	        <Header/>
 	        
 			<Route 
-				exact path="/" 
+				exact path="/"
 				render={(props) => (
 					<div>
 						<Categories {...props}/>
-						<PostsList {...props} /> }
+						<PostsList {...props} />
 					</div>
 					)}
 			/>
@@ -34,7 +34,7 @@ class App extends Component {
 				render={(props) => (
 					<div>
 						<Categories {...props}/>
-						<PostsList {...props} /> }
+						<PostsList {...props} />
 					</div>
 					)}
 			/>

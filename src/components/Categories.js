@@ -13,12 +13,11 @@ class Categories extends Component {
   	}
 
 	componentDidMount() {
-		debugger;
 		this.props.fetchCategories();
 	}
 
 	componentWillReceiveProps(nextProps){
-		const categorySelected = nextProps.match && nextProps.match.params&& nextProps.match.params.category || '';
+		const categorySelected = nextProps.match && nextProps.match.params && nextProps.match.params.category || '';
 		this.setState({'currentCategory': categorySelected});
 	}
 
