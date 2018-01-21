@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import { Link } from 'react-router-dom';
 
 class Comment extends Component {
 
@@ -11,7 +10,7 @@ class Comment extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.id && nextProps.id != this.state.id){
+    if (nextProps.id && nextProps.id !== this.state.id){
       this.setState({comment: nextProps});
     }
   }

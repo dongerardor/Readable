@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import './App.css';
 
-import { Link, Route, BrowserRouter, Switch } from 'react-router-dom';
-import { withRouter, Router} from 'react-router'
+import { Route, Switch } from 'react-router-dom';
 
 import PostsList from './PostsList'
 import Categories from './Categories'

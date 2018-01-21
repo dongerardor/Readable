@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import { Link } from 'react-router-dom';
 import { fetchComments } from '../actions';
 import Comment from './Comment';
 
@@ -13,7 +12,7 @@ class Comments extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.postId && nextProps.postId != this.state.postId){
+    if (nextProps.postId && nextProps.postId !== this.state.postId){
       this.setState({postId: nextProps.postId});
       this.props.fetchComments(nextProps.postId);
     }

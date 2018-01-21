@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import { fetchCategories } from '../actions'
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 class Categories extends Component {
@@ -17,7 +17,9 @@ class Categories extends Component {
 	}
 
 	componentWillReceiveProps(nextProps){
-		const categorySelected = nextProps.match && nextProps.match.params && nextProps.match.params.category || '';
+		const categorySelected = 	(nextProps.match && 
+															nextProps.match.params && 
+															nextProps.match.params.category) || '';
 		this.setState({'currentCategory': categorySelected});
 	}
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import { Link } from 'react-router-dom';
 
 class EditPanel extends Component {
 
@@ -11,14 +10,10 @@ class EditPanel extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    debugger;
-    this.setState({itemId: nextProps.itemId});
+    if (this.state.itemId !== nextProps.itemId){
+      this.setState({itemId: nextProps.itemId});
+    }
   }
-
-/*  onUpvote
-  onDownvote
-  onEdit
-  onDelete*/
 
   render() {
     return (

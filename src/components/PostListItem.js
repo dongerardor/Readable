@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import { Link } from 'react-router-dom';
-import { fetchPosts, fetchPostComments, fetchPostPostVote } from '../actions';
+import { fetchPostPostVote } from '../actions';
 import EditPanel from './EditPanel';
 
 class PostsListItem extends Component {
@@ -12,13 +12,8 @@ class PostsListItem extends Component {
 		this.postItem = props.postItem;
   	}
 
- //  	upvote={this.onVote.bind(this, 'upvote')}
-	// downvote={this.onVote.bind(this, 'downvote')}
-	// edit={this.onEditItem.bind(this)}
-	// delete={this.onDeleteItem.bind(this)}
-
 	onVote(vote){
-		console.log('vote: ', vote);
+		this.props.vote(this.props.postItem.id, vote);
 	}
 	onEditItem(){
 		console.log('EditItem');
@@ -39,20 +34,11 @@ class PostsListItem extends Component {
 				<p>Score: {this.props.postItem.voteScore}</p>
 				<EditPanel 
 					itemId={this.props.postItem.id}
-					onUpvote={this.onVote.bind(this, 'upvote')}
-					onDownvote={this.onVote.bind(this, 'downvote')}
+					onUpvote={this.onVote.bind(this, 'upVote')}
+					onDownvote={this.onVote.bind(this, 'downVote')}
 					onEdit={this.onEditItem.bind(this)}
 					onDelete={this.onDeleteItem.bind(this)}
 				/>
-
-				<button
-					onClick={() => this.props.vote(this.props.postItem.id, 'upVote')}>
-				>Vote up</button>
-				<button
-					onClick={() => this.props.vote(this.props.postItem.id, 'downVote')}>
-				>Vote down</button>
-				<button>Edit</button>
-				<button>Delete</button>
 			</div>
 		);
   }
@@ -69,12 +55,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default PostsListItem = connect(mapStateToProps, mapDispatchToProps)(PostsListItem);
-
-
-/*
-    POST /posts/:id
-      USAGE:
-        Used for voting on a post
-      PARAMS:
-        option - String: Either "upVote" or "downVote"
-*/

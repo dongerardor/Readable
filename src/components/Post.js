@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import { Link, Route } from 'react-router-dom';
 import { fetchPost } from '../actions'
 import Comments from './Comments'
 
 class Post extends Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     this.props.fetchPost(this.props.match.params.id);

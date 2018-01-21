@@ -1,5 +1,3 @@
-import * as ReadableApi from '../utils/ReadableAPI';
-
 export const GET_POSTS = "GET_POSTS";
 export const GET_POST = "GET_POST";
 export const GET_COMMENTS = "GET_COMMENTS";
@@ -100,7 +98,7 @@ export const fetchCategoryPosts = (category) => async dispatch => {
 export const fetchPostPostVote = (postId, vote) => async dispatch => {
 	try {
 		const url = `posts/${postId}`;
-		const response = await fetch(url, 
+		await fetch(url, 
 			{
 				method: 'POST',
 				headers: {
