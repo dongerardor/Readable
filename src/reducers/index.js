@@ -2,9 +2,10 @@ import { combineReducers } from 'redux';
 
 import {
 	GET_POSTS,
+	GET_POST,
+	GET_COMMENTS,
 	GET_CATEGORIES,
 	GET_CATEGORY_POSTS,
-	GET_POST_COMMENTS,
 	POST_POST_VOTE,
 } from '../actions'
 
@@ -21,21 +22,21 @@ function posts(state = [], action) {
 				return post.id === action.vote.id ? action.vote : post
 			});
 			return newState;
-
+			break;
 		default:
 			return state;
 	}
 }
 
-
-/*{
-        ...state,
-        [day]: {
-          ...state[day],
-          [meal]: recipe.label,
-        }
-      }
-*/
+function post(state = [], action) {
+	switch (action.type) {
+		case 'GET_POST':
+			return action.post;
+			break;
+		default:
+			return state;
+	}
+}
 
 function categories(state = [], action) {
 	switch (action.type) {
@@ -48,8 +49,9 @@ function categories(state = [], action) {
 
 function comments(state = [], action) {
 	switch (action.type) {
-		case 'GET_POST_COMMENTS':
+		case 'GET_COMMENTS':
 			return action.comments;
+			break;
 		default:
 			return state;
 	}
@@ -60,6 +62,7 @@ function comments(state = [], action) {
 export default combineReducers({
 	categories,
 	posts,
+	post,
 	comments,
 });
 

@@ -1,14 +1,25 @@
 import * as ReadableApi from '../utils/ReadableAPI';
 
 export const GET_POSTS = "GET_POSTS";
+export const GET_POST = "GET_POST";
+export const GET_COMMENTS = "GET_COMMENTS";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_CATEGORY_POSTS = "GET_CATEGORY_POSTS";
-export const GET_POST_COMMENTS = "GET_POST_COMMENTS";
 export const POST_POST_VOTE = "POST_POST_VOTE";
 
 export const getPosts = posts => ({
   type: GET_POSTS,
   posts
+});
+
+export const getPost = post => ({
+  type: GET_POST,
+  post
+});
+
+export const getComments = comments => ({
+  type: GET_COMMENTS,
+  comments
 });
 
 export const getCategories = categories => ({
@@ -19,11 +30,6 @@ export const getCategories = categories => ({
 export const getCategoryPosts = category => ({
 	type: GET_CATEGORY_POSTS,
 	category
-});
-
-export const getPostComments = comments => ({
-	type: GET_POST_COMMENTS,
-	comments
 });
 
 export const postPostVote = vote => ({
@@ -38,12 +44,32 @@ const headers = {
   'Authorization': 'local_user'
 }
 
-
 export const fetchPosts = () => async dispatch => {
   try {
     const response = await fetch('/posts', { headers });
     const responseBody = await response.json();
     dispatch(getPosts(responseBody));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const fetchPost = (postId) => async dispatch => {
+  try {
+    const url = `/posts/${postId}`;
+    const response = await fetch(url, { headers });
+    const responseBody = await response.json();
+    dispatch(getPost(responseBody));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const fetchComments = (postId) => async dispatch => {
+  try {
+    const response = await fetch(`/posts/${postId}/comments`, { headers });
+    const responseBody = await response.json();
+    dispatch(getComments(responseBody));
   } catch (error) {
     console.error(error);
   }
@@ -70,17 +96,6 @@ export const fetchCategoryPosts = (category) => async dispatch => {
 	}
 };
 
-export const fetchPostComments = (postId) => async dispatch => {
-	try {
-		const url = `posts/${postId}/comments`;
-		const response = await fetch(url, {headers});
-		const responseBody = await response.json();
-		dispatch(getPostComments(responseBody));
-	} catch (error) {
-		console.error(error);
-	}
-};
-
 //vote is a string ('upVote' or 'downVote')
 export const fetchPostPostVote = (postId, vote) => async dispatch => {
 	try {
@@ -95,68 +110,11 @@ export const fetchPostPostVote = (postId, vote) => async dispatch => {
 				},
 				body: JSON.stringify({'vote': vote })
 			})
-  		.then((resp) => resp.json()) // Transform the data into json
+  		.then((resp) => resp.json())
   		.then(function(data) {
-    	// Create and append the li's to the ul
     		dispatch(postPostVote(data));
     	})		
 	} catch (error) {
 		console.error(error);
 	}
 };
-
-/*
-POST /posts/:id
-      USAGE:
-        Used for voting on a post
-      PARAMS:
-        option - String: Either "upVote" or "downVote"
-
-
-return fetch('https://mywebsite.com/endpoint/', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstParam: 'yourValue',
-        secondParam: 'yourOtherValue',
-      })
-    }).then((response) => response.json())
-      .then((responseJson) => {
-        return responseJson.success;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
-
-
-
-
-fetch('http://localhost/login', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: userData.email,
-        password: userData.password,
-      }),
-    })
-    .then(response => {
-      if (response.status >= 200 && response.status < 300) {
-        console.log(response);
-        LoginActions.loginSuccess(response);
-      } else {
-        const error = new Error(response.statusText);
-        error.response = response;
-        LoginActions.loginError();
-        throw error;
-      }
-    })
-    .catch(error => { console.log('request failed', error); });
-  },
-  */

@@ -8,14 +8,30 @@ class PostsList extends Component {
 
 	constructor(props) {
 		super(props);
+    	this.state = { 
+    		'currentCategory': '',
+    	};
+  	}
+
+  	setCurrentCategory(category){
+  		const currentCategory = category || 'All';
+
+		if (currentCategory !== this.state.currentCategory){
+			this.setState({'currentCategory': currentCategory})
+			if (currentCategory === 'All'){
+				this.props.fetchPosts();
+			} else {
+				this.props.fetchCategoryPosts(currentCategory);
+			}
+		}
+  	}
+
+  	componentDidMount(){
+		this.setCurrentCategory();
   	}
 
 	componentWillReceiveProps(nextProps) {
-    	if (nextProps.match && nextProps.match.params && nextProps.match.params.category){
-    		this.props.fetchCategoryPosts(nextProps.match.params.category);
-    	} else {
-    		this.props.fetchPosts();
-    	}
+		this.setCurrentCategory(nextProps.match.params.category);
   	}
 
 	render() {
@@ -24,7 +40,7 @@ class PostsList extends Component {
         		<ul className='postsList'>
 					{this.props.posts.map((post) => (
 						<li key={post.id}>
-							<PostListItem post={post}/>
+							<PostListItem postItem={post}/>
 						</li>
 					))}
 				</ul>

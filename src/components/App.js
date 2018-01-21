@@ -2,43 +2,56 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 
-import { Link, Route, BrowserRouter } from 'react-router-dom';
+import { Link, Route, BrowserRouter, Switch } from 'react-router-dom';
 import { withRouter, Router} from 'react-router'
 
 import PostsList from './PostsList'
 import Categories from './Categories'
 import Header from './Header'
+import Post from './Post'
 
 class App extends Component {
 
   render() {
-  	const ppp = Math.random();
     return (
+	  	<div className="App">
 
-      	<div className="App">
+	      <Header/>
 
-	        <Header/>
-	        
-			<Route 
-				exact path="/"
-				render={(props) => (
-					<div>
-						<Categories {...props}/>
-						<PostsList {...props} />
-					</div>
-					)}
-			/>
+    
+			  <Switch>
 
-			<Route 
-				path="/:category" 
-				render={(props) => (
-					<div>
-						<Categories {...props}/>
-						<PostsList {...props} />
-					</div>
-					)}
-			/>
+			  	<Route
+						exact path="/post/:id"
+						render={(props) => (
+							<div>
+								<Categories/>
+								<Post {...props}/>
+							</div>
+						)}
+					/>
 
+					<Route 
+						exact path="/"
+						render={(props) => (
+							<div>
+								<Categories/>
+								<PostsList {...props}/>
+							</div>
+						)}
+					/>
+
+		      <Route 
+						path="/:category" 
+						render={(props) => (
+							<div>
+								<Categories {...props}/>
+								<PostsList  {...props}/>
+							</div>
+						)}
+					/>
+				</Switch>
+		    
 		</div>
     );
   }

@@ -1,32 +1,44 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './App.css';
-import { Link } from 'react-router-dom';
-
+import { Link, Route } from 'react-router-dom';
+import { fetchPost } from '../actions'
+import Comments from './Comments'
 
 class Post extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    this.props.fetchPost(this.props.match.params.id);
+  }
 
   render() {
     return (
       <div className="post">
-        <h1>Post</h1>
-        <p>Id</p>
-        <p>Timestamp</p>
-        <h3>Title</h3>
-        <p>Body</p>
-        <p>Author</p>
-        <p>Category</p>
-        <p>Vote score (1, 2, 3, -1, etc.)</p>
-        <p>deleted (true or false)</p>
-
-        <br/>
-
-        <Link to='/post/33'>
-          Editar post 33
-        </Link>
+        <h6>By {this.props.post.author}</h6>
+        <h3>{this.props.post.title}</h3>
+        <p>{this.props.post.body}</p>
+        <p>Voted: {this.props.post.voteScore}</p>
+        <p>Comments: {this.props.post.commentCount}</p>
+        <Comments postId={this.props.post.id}/>
       </div>
     );
   }
 }
 
+function mapStateToProps (props) {
+  return props;
+}
 
-export default Post;
+const mapDispatchToProps = { fetchPost };
+
+export default Post = connect(mapStateToProps, mapDispatchToProps)(Post);
+
+
+/*
+`GET /posts/:id` un post
+`GET /posts/:id/comments` comments del post 
+*/
