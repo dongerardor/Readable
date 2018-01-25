@@ -4,6 +4,7 @@ export const GET_COMMENTS = "GET_COMMENTS";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_CATEGORY_POSTS = "GET_CATEGORY_POSTS";
 export const POST_POST_VOTE = "POST_POST_VOTE";
+export const CREATE_POST = "CREATE_POST";
 
 export const getPosts = posts => ({
   type: GET_POSTS,
@@ -34,6 +35,11 @@ export const postPostVote = vote => ({
 	type: POST_POST_VOTE,
 	vote
 });
+
+export const createPost = post => ({
+  type: CREATE_POST,
+  post
+})
 
 
 
@@ -115,4 +121,33 @@ export const fetchPostPostVote = (postId, vote) => async dispatch => {
 	} catch (error) {
 		console.error(error);
 	}
+};
+
+export const fetchCreatePost = (newPost) => async dispatch => {
+  try {
+    const url = 'posts';
+    await fetch(url, 
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': 'local_user',
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          'id': newPost.id,
+          'timestamp': newPost.timestamp,
+          'title': newPost.title,
+          'body': newPost.body,
+          'author': newPost.author,
+          'category': newPost.category,
+        })
+      })
+      .then((resp) => resp.json())
+      .then(function(data) {
+        dispatch(createPost(data));
+      })    
+  } catch (error) {
+      console.error(error);
+  }
 };

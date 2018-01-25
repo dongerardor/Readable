@@ -20,6 +20,9 @@ function post(state = [], action) {
 	switch (action.type) {
 		case 'GET_POST':
 			return action.post;
+		case 'CREATE_POST':
+			debugger;
+			return action.post;
 		default:
 			return state;
 	}

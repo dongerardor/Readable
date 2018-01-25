@@ -7,23 +7,27 @@ import PostsList from './PostsList'
 import Categories from './Categories'
 import Header from './Header'
 import Post from './Post'
+import CreatePost from './CreatePost'
 
 class App extends Component {
 
   render() {
     return (
 	  	<div className="App">
-
-	      <Header/>
-
-    
-			  <Switch>
+				<Header/>
+				
+				<Categories/>
+				
+				<Switch>
+			  	
+					<Route 
+						exact path="/post/new"
+						component={CreatePost} />
 
 			  	<Route
 						exact path="/post/:id"
 						render={(props) => (
 							<div>
-								<Categories/>
 								<Post {...props}/>
 							</div>
 						)}
@@ -33,7 +37,6 @@ class App extends Component {
 						exact path="/"
 						render={(props) => (
 							<div>
-								<Categories/>
 								<PostsList {...props}/>
 							</div>
 						)}
@@ -43,7 +46,6 @@ class App extends Component {
 						path="/:category" 
 						render={(props) => (
 							<div>
-								<Categories {...props}/>
 								<PostsList  {...props}/>
 							</div>
 						)}
