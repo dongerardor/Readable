@@ -125,7 +125,7 @@ export const fetchPostPostVote = (postId, vote) => async dispatch => {
 
 export const fetchCreatePost = (newPost) => async dispatch => {
   try {
-    const url = 'posts';
+    const url = '../posts';
     await fetch(url, 
       {
         method: 'POST',

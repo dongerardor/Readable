@@ -26,3 +26,13 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+
+.errMsg {
+  color: red;
+  visibility: hidden;
+}
+
+.showErrMsg {
+  visibility: visible;
+}

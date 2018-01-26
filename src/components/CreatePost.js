@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import { createPost } from '../actions';
+import { Redirect } from 'react-router';
+import { fetchCreatePost } from '../actions';
 import {default as UUID} from "node-uuid";
 
 class CreatePost extends Component {
@@ -12,21 +13,17 @@ class CreatePost extends Component {
       author: '',
       body: '',
       category: '',
-      commentCount: 0,
-      deleted: false,
       id: '',
       timestamp: '',
       title: '',
-      votescore: 0,
       formValid: false,
+      errMsg: '',
+      redirect: false,
     };
 
+    this.showErrMsg = '';
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentWillMount() {
-    this.id = UUID.v4();
   }
 
   handleChange(event) {
@@ -41,23 +38,32 @@ class CreatePost extends Component {
   handleSubmit(event) {
     event.preventDefault();
     
+    const id = UUID.v4();
+    const timestamp = Date.now();
+    let newPost = {};
+
     if(this.validateForm()){
+      
+
+      newPost = {
+        author: this.state.author,
+        body: this.state.body,
+        title: this.state.title,
+        category: this.state.category,
+        id: id,
+        timestamp: timestamp,
+      }
+
       this.setState({
         ...this.state,
-        commentCount: 0,
-        deleted: false,
-        id: this.id,
-        timestamp: new Date(),
-        votescore: 0,
-        formValid: false,
-      })
+        ...newPost,
+        errMsg: '',
+      });
 
-      console.log('submission: ', JSON.stringify(this.state));
-    
+      this.props.fetchCreatePost(newPost).then((post) => this.setState({ redirect: true }));
+  
     } else {
-     
-      console.log('form invalid');
-    
+      this.setState({errMsg: 'showErrMsg'});    
     }
   }
 
@@ -71,11 +77,15 @@ class CreatePost extends Component {
     return;
   }
 
-
-  
   render() {
+
+    if (this.state.redirect && this.state.id) {
+       return <Redirect to={`posts/${this.state.id}`}/>;
+    }
+
     return (
       <form onSubmit={this.handleSubmit}>
+        <p className={`errMsg ${this.state.errMsg}`}>All the fields are mandatory</p>
         <label>
           Create new post:
           <select value={this.state.category} name='category' onChange={this.handleChange} className='form-control'>
@@ -88,9 +98,9 @@ class CreatePost extends Component {
 
         <br />
 
-        <label>Author:<input name="author"  value={this.state.author}   onChange={this.handleChange} className='form-control' /></label><br />
-        <label>Title:<input name="title"    value={this.state.title}    onChange={this.handleChange} className='form-control' /></label><br />
-        <label>Body:<textarea name="body"   value={this.state.body}     onChange={this.handleChange} className='form-control' /></label><br />
+        <label>Author:  <input name="author"    value={this.state.author}   onChange={this.handleChange} className='form-control' /></label><br />
+        <label>Title:   <input name="title"     value={this.state.title}    onChange={this.handleChange} className='form-control' /></label><br />
+        <label>Body:    <textarea name="body"   value={this.state.body}     onChange={this.handleChange} className='form-control' /></label><br />
 
         <input type="submit" value="Submit" />
       </form>
@@ -102,12 +112,24 @@ function mapStateToProps (props) {
   return props;
 }
 
-const mapDispatchToProps = { createPost };
+const mapDispatchToProps = { fetchCreatePost };
 
 export default CreatePost = connect(mapStateToProps, mapDispatchToProps)(CreatePost);
 
 
 /*
-`GET /posts/:id` un post
-`GET /posts/:id/comments` comments del post 
+
+POST /posts
+      USAGE:
+        Add a new post
+
+      PARAMS:
+        id - UUID should be fine, but any unique id will work
+        timestamp - timestamp in whatever format you like, you can use Date.now() if you like
+        title - String
+        body - String
+        author - String
+        category: Any of the categories listed in categories.js. Feel free to extend this list as you desire.
+
+
 */

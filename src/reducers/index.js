@@ -11,6 +11,8 @@ function posts(state = [], action) {
 				return post.id === action.vote.id ? action.vote : post
 			});
 			return newState;
+		case 'CREATE_POST':
+			return action.post;
 		default:
 			return state;
 	}
@@ -21,7 +23,6 @@ function post(state = [], action) {
 		case 'GET_POST':
 			return action.post;
 		case 'CREATE_POST':
-			debugger;
 			return action.post;
 		default:
 			return state;
