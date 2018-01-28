@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
+import { Link } from 'react-router-dom';
 
 class EditPanel extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {itemId: ''}
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.state.itemId !== nextProps.itemId){
-      this.setState({itemId: nextProps.itemId});
-    }
-  }
-
-  render() {
+  render() {    
     return (
       <div className="editPanel">
         <button
@@ -24,12 +18,10 @@ class EditPanel extends Component {
         <button
           onClick={() => this.props.onDownvote()}>
         >Vote down</button>
-        <button
-          onClick={() => this.props.onEdit()}
-        >Edit</button>
-        <button
-          onClick={() => this.props.onDelete()}
-        >Delete</button>
+        &nbsp;
+        <Link to={`/post/${this.props.itemId}/edit`}>Edit</Link>
+        &nbsp;
+        <Link to={`/post/${this.props.itemId}/delete`}>Delete</Link>
       </div>  
     );
   }

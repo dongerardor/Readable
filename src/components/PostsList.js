@@ -48,10 +48,15 @@ class PostsList extends Component {
 
 	render() {
 
-		const posts = this.props.posts.sort((a, b) => a[this.state.orderBy] > b[this.state.orderBy]);
+		let posts = Array.isArray(this.props.posts)
+			? this.props.posts
+			: [];
+
   	return (
 			<div>
-				{this.props.posts.length > 1 &&
+			{posts.length > 1 &&
+				posts.sort((a, b) => a[this.state.orderBy] > b[this.state.orderBy]) &&
+				
 				<form>
 			    <label>
 	        	<input 
@@ -73,7 +78,8 @@ class PostsList extends Component {
 						Order by score
 			    </label>
 			  </form>
-				}
+			 }
+
 				<hr/>
 				<Link to={'post/new'}>Create new post</Link>
 

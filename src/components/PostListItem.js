@@ -9,17 +9,10 @@ class PostsListItem extends Component {
 
 	constructor(props) {
 		super(props);
-		this.postItem = props.postItem;
-  	}
+  }
 
 	onVote(vote){
 		this.props.vote(this.props.postItem.id, vote);
-	}
-	onEditItem(){
-		console.log('EditItem');
-	}
-	onDeleteItem(){
-		console.log('DeleteItem');
 	}
 
 	render() {
@@ -36,8 +29,6 @@ class PostsListItem extends Component {
 					itemId={this.props.postItem.id}
 					onUpvote={this.onVote.bind(this, 'upVote')}
 					onDownvote={this.onVote.bind(this, 'downVote')}
-					onEdit={this.onEditItem.bind(this)}
-					onDelete={this.onDeleteItem.bind(this)}
 				/>
 			</div>
 		);

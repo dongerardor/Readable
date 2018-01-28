@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import { Redirect } from 'react-router';
-import { fetchCreatePost } from '../actions';
+import { fetchPost, fetchCreatePost, fetchEditPost } from '../actions';
 import {default as UUID} from "node-uuid";
 
-class CreatePost extends Component {
+class PostCreateEdit extends Component {
 
   constructor(props) {
     super(props);
@@ -24,54 +24,60 @@ class CreatePost extends Component {
     this.showErrMsg = '';
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.submitAction = this.props.fetchCreatePost;
+  }
+
+  componentDidMount(){
+    if(this.props.match.params.postId){
+      this.submitAction = this.props.fetchEditPost;
+      this.props.fetchPost(this.props.match.params.postId);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.post.id !== this.state.id){
+      this.setState({
+        ...this.state,
+        ...nextProps.post
+      });
+    }
   }
 
   handleChange(event) {
-    const fieldName = event.target.name,
-      fieldValue = event.target.value;
-
     this.setState(
-      {[fieldName]: fieldValue}
+      {[event.target.name]: event.target.value}
     );
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    
-    const id = UUID.v4();
-    const timestamp = Date.now();
-    let newPost = {};
 
-    if(this.validateForm()){
-      
-
+    const postId = this.state.id ? this.state.id : UUID.v4(),
+      postTimestamp = this.state.timestamp ? this.state.timestamp : Date.now(),
       newPost = {
-        author: this.state.author,
-        body: this.state.body,
-        title: this.state.title,
-        category: this.state.category,
-        id: id,
-        timestamp: timestamp,
+        ...this.state,
+        id: postId,
+        timestamp: postTimestamp,
       }
 
-      this.setState({
+    if(this.validateForm(newPost)){
+      this.submitAction(newPost)
+      .then((post) => this.setState({
         ...this.state,
         ...newPost,
         errMsg: '',
-      });
-
-      this.props.fetchCreatePost(newPost).then((post) => this.setState({ redirect: true }));
-  
+        redirect: true 
+      }));
     } else {
-      this.setState({errMsg: 'showErrMsg'});    
+      this.setState({ errMsg: 'showErrMsg' });    
     }
   }
 
-  validateForm() {
-    if (this.state.author   !== '' ||
-        this.state.body     !== '' ||
-        this.state.category !== '' ||
-        this.state.title    !== ''){
+  validateForm(newPost) {
+    if (newPost.author   !== '' &&
+        newPost.body     !== '' &&
+        newPost.category !== '' &&
+        newPost.title    !== ''){
       return true;
     }
     return;
@@ -80,7 +86,7 @@ class CreatePost extends Component {
   render() {
 
     if (this.state.redirect && this.state.id) {
-       return <Redirect to={`posts/${this.state.id}`}/>;
+       return <Redirect to={`/post/${this.state.id}`}/>;
     }
 
     return (
@@ -89,7 +95,7 @@ class CreatePost extends Component {
         <label>
           Create new post:
           <select value={this.state.category} name='category' onChange={this.handleChange} className='form-control'>
-              <option key='no-category' value='None'>Select category</option>
+              <option key='no-category' value=''>Select category</option>
             {this.props.categories.map((category) => 
               <option key={category.name} value={category.name}>{category.name}</option>
             )}
@@ -112,9 +118,9 @@ function mapStateToProps (props) {
   return props;
 }
 
-const mapDispatchToProps = { fetchCreatePost };
+const mapDispatchToProps = { fetchPost, fetchCreatePost, fetchEditPost };
 
-export default CreatePost = connect(mapStateToProps, mapDispatchToProps)(CreatePost);
+export default PostCreateEdit = connect(mapStateToProps, mapDispatchToProps)(PostCreateEdit);
 
 
 /*
@@ -131,5 +137,10 @@ POST /posts
         author - String
         category: Any of the categories listed in categories.js. Feel free to extend this list as you desire.
 
-
+    PUT /posts/:id
+      USAGE:
+        Edit the details of an existing post
+      PARAMS:
+        title - String
+        body - String
 */

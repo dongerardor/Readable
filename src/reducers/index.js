@@ -24,6 +24,10 @@ function post(state = [], action) {
 			return action.post;
 		case 'CREATE_POST':
 			return action.post;
+		case 'EDIT_POST':
+			return action.post;
+		case 'DELETE_POST':
+			return action.post;
 		default:
 			return state;
 	}

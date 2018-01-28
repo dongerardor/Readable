@@ -7,7 +7,8 @@ import PostsList from './PostsList'
 import Categories from './Categories'
 import Header from './Header'
 import Post from './Post'
-import CreatePost from './CreatePost'
+import PostCreateEdit from './PostCreateEdit'
+import PostDelete from './PostDelete'
 
 class App extends Component {
 
@@ -15,17 +16,12 @@ class App extends Component {
     return (
 	  	<div className="App">
 				<Header/>
-				
 				<Categories/>
-				
 				<Switch>
-			  	
-					<Route 
-						exact path="/post/new"
-						component={CreatePost} />
-
-			  	<Route
-						exact path="/post/:id"
+			  	<Route exact path="/post/new" component={PostCreateEdit} />
+			  	<Route path="/post/:postId/edit" component={PostCreateEdit} />
+			  	<Route path="/post/:postId/delete" component={PostDelete} />
+			  	<Route exact path="/post/:id"
 						render={(props) => (
 							<div>
 								<Post {...props}/>

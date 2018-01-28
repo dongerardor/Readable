@@ -5,6 +5,8 @@ export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_CATEGORY_POSTS = "GET_CATEGORY_POSTS";
 export const POST_POST_VOTE = "POST_POST_VOTE";
 export const CREATE_POST = "CREATE_POST";
+export const EDIT_POST = "EDIT_POST";
+export const DELETE_POST = "DELETE_POST";
 
 export const getPosts = posts => ({
   type: GET_POSTS,
@@ -38,6 +40,16 @@ export const postPostVote = vote => ({
 
 export const createPost = post => ({
   type: CREATE_POST,
+  post
+})
+
+export const editPost = post => ({
+  type: EDIT_POST,
+  post
+})
+
+export const deletePost = post => ({
+  type: DELETE_POST,
   post
 })
 
@@ -151,3 +163,64 @@ export const fetchCreatePost = (newPost) => async dispatch => {
       console.error(error);
   }
 };
+
+export const fetchEditPost = (editedPost) => async dispatch => {
+  try {
+    const url = `../../posts/${editedPost.id}`;
+    await fetch(url, 
+    {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'local_user',
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'id': editedPost.id,
+        'timestamp': editedPost.timestamp,
+        'title': editedPost.title,
+        'body': editedPost.body,
+        'author': editedPost.author,
+        'category': editedPost.category,
+      })
+    })
+    .then((resp) => resp.json())
+    .then(function(data) {
+      dispatch(editPost(data));
+    })    
+  } catch (error) {
+      console.error(error);
+  }
+};
+
+export const fetchDeletePost = (deletedPostId) => async dispatch => {
+  try {
+    const url = `../../posts/${deletedPostId}`;
+    await fetch(url, 
+    {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'local_user',
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((resp) => resp.json())
+    .then(function(data) {
+      dispatch(deletePost(data));
+    })    
+  } catch (error) {
+      console.error(error);
+  }
+};
+
+/*
+
+PUT /posts/:id
+      USAGE:
+        Edit the details of an existing post
+      PARAMS:
+        title - String
+        body - String
+
+        */

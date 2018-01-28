@@ -4,7 +4,6 @@ import './App.css';
 import { fetchCategories } from '../actions'
 import { Link } from 'react-router-dom';
 
-
 class Categories extends Component {
 
 	constructor(props) {
