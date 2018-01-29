@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import { Link } from 'react-router-dom';
+import { fetchPostPostVote } from '../actions';
 
 class EditPanel extends Component {
 
@@ -9,20 +10,22 @@ class EditPanel extends Component {
     super(props);
   }
 
-  render() {    
+  render() {
+    const item = this.props.item;//could be a Post or a Comment
+    const itemType = item && item.parentId ? 'comments' : 'posts';
     return (
-      <div className="editPanel">
-        <button
-          onClick={() => this.props.onUpvote()}>
-        >Vote up</button>
-        <button
-          onClick={() => this.props.onDownvote()}>
-        >Vote down</button>
-        &nbsp;
-        <Link to={`/post/${this.props.itemId}/edit`}>Edit</Link>
-        &nbsp;
-        <Link to={`/post/${this.props.itemId}/delete`}>Delete</Link>
-      </div>  
+      <div>
+      {item && item.id &&
+        <div className="editPanel">
+          <button onClick={() => this.props.vote(itemType, item.id, 'upVote')}>Vote up</button>
+          <button onClick={() => this.props.vote(itemType, item.id, 'downVote')}>Vote down</button>
+          &nbsp;
+          <Link to={`/${itemType}/${item.id}/edit`}>Edit</Link>
+          &nbsp;
+          <Link to={`/${itemType}/${item.id}/delete`}>Delete</Link>
+        </div>
+      }
+      </div>
     );
   }
 }
@@ -31,6 +34,10 @@ function mapStateToProps (props) {
   return props;
 }
 
-const mapDispatchToProps = {  };
+function mapDispatchToProps(dispatch) {
+    return {
+      vote: (itemType, itemId, vote) => dispatch(fetchPostPostVote(itemType, itemId, vote)),
+  };
+}
 
 export default EditPanel = connect(mapStateToProps, mapDispatchToProps)(EditPanel);

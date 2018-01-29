@@ -3,10 +3,11 @@ export const GET_POST = "GET_POST";
 export const GET_COMMENTS = "GET_COMMENTS";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_CATEGORY_POSTS = "GET_CATEGORY_POSTS";
-export const POST_POST_VOTE = "POST_POST_VOTE";
 export const CREATE_POST = "CREATE_POST";
 export const EDIT_POST = "EDIT_POST";
 export const DELETE_POST = "DELETE_POST";
+export const POST_POST_VOTE = "POST_POST_VOTE";
+export const POST_COMMENT_VOTE = "POST_COMMENT_VOTE";
 
 export const getPosts = posts => ({
   type: GET_POSTS,
@@ -33,11 +34,6 @@ export const getCategoryPosts = category => ({
 	category
 });
 
-export const postPostVote = vote => ({
-	type: POST_POST_VOTE,
-	vote
-});
-
 export const createPost = post => ({
   type: CREATE_POST,
   post
@@ -53,6 +49,15 @@ export const deletePost = post => ({
   post
 })
 
+export const postPostVote = vote => ({
+  type: POST_POST_VOTE,
+  vote
+});
+
+export const postCommentVote = vote => ({
+  type: POST_COMMENT_VOTE,
+  vote
+});
 
 
 
@@ -107,29 +112,6 @@ export const fetchCategoryPosts = (category) => async dispatch => {
 		const response = await fetch(url, {headers});
 		const responseBody = await response.json();
 		dispatch(getCategoryPosts(responseBody));
-	} catch (error) {
-		console.error(error);
-	}
-};
-
-//vote is a string ('upVote' or 'downVote')
-export const fetchPostPostVote = (postId, vote) => async dispatch => {
-	try {
-		const url = `posts/${postId}`;
-		await fetch(url, 
-			{
-				method: 'POST',
-				headers: {
-  				'Authorization': 'local_user',
-					'Accept': 'application/json, text/plain, */*',
-	        'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({'vote': vote })
-			})
-  		.then((resp) => resp.json())
-  		.then(function(data) {
-    		dispatch(postPostVote(data));
-    	})		
 	} catch (error) {
 		console.error(error);
 	}
@@ -214,13 +196,26 @@ export const fetchDeletePost = (deletedPostId) => async dispatch => {
   }
 };
 
-/*
-
-PUT /posts/:id
-      USAGE:
-        Edit the details of an existing post
-      PARAMS:
-        title - String
-        body - String
-
-        */
+//vote is a string ('upVote' or 'downVote')
+export const fetchPostPostVote = (itemType, itemId, vote) => async dispatch => {
+  const action = itemType === 'posts' ? postPostVote : postCommentVote;
+  try {
+    const url = `/${itemType}/${itemId}`;
+    await fetch(url, 
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': 'local_user',
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({'vote': vote })
+      })
+      .then((resp) => resp.json())
+      .then(function(data) {
+        dispatch(action(data));
+      })    
+  } catch (error) {
+    console.error(error);
+  }
+};

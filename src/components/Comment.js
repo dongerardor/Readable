@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
+import EditPanel from './EditPanel';
 
 class Comment extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {comment: {}};
+    this.itemId = props.comment.id;
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.id && nextProps.id !== this.state.id){
-      this.setState({comment: nextProps});
-    }
+  formatDate(timestamp){
+    const postCreatedDate = new Date(timestamp);
+    return (postCreatedDate.getMonth() + 1) + '/' + postCreatedDate.getDate() + '/' +  postCreatedDate.getFullYear();
   }
 
   render() {
     return (
       <div className="comment">
-        <p>Comment id: {this.props.comment.id}</p>
-        <p>Comment date: {this.props.comment.timestamp}</p>
-        <p>Comment body: {this.props.comment.bodydate}</p>
-        <p>Comment author: {this.props.comment.author}</p>
-        <p>Comment votes: {this.props.comment.voteScore}</p>
+        <p>Commented on {this.formatDate(this.props.comment.timestamp)}</p>
+        <p>{this.props.comment.body}</p>
+        <p>Commented by {this.props.comment.author}</p>
+        <p>Votes: {this.props.comment.voteScore}</p>
+        <EditPanel item={this.props.comment}/>
         <hr/>
       </div>  
     );
@@ -33,22 +33,14 @@ function mapStateToProps (props) {
   return props;
 }
 
-const mapDispatchToProps = {  };
-
-export default Comment = connect(mapStateToProps, mapDispatchToProps)(Comment);
-
+export default Comment = connect(mapStateToProps)(Comment);
 
 /*
-`GET /posts/:id` un post
-`GET /posts/:id/comments` comments del post 
 
-"{"id":"894tuq4ut84ut8v4t8wun89g",
-"parentId":"8xf0y6ziyjabvozdd253nd",
-"timestamp":1468166872634,
-"body":"Hi there! I am a COMMENT.",
-"author":"thingtwo",
-"voteScore":6,
-"deleted":false,
-"parentDeleted":false}"
+    POST /comments/:id
+      USAGE:
+        Used for voting on a comment.
+      PARAMS:
+        option - String: Either "upVote" or "downVote"
 
 */

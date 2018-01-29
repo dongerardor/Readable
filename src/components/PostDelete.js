@@ -18,16 +18,9 @@ class PostDelete extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      ...nextProps.post
-    });
-  }
-
   render() {
     return (
       <div>
-        <h3>{this.props.post.title}</h3>
         <p>This post has been deleted</p>
         <Link to="/">OK</Link>
       </div>

@@ -8,15 +8,18 @@ class Comments extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {postId: ''};
+    this.state = { 'parentId': props.postId };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.postId && nextProps.postId !== this.state.postId){
-      this.setState({postId: nextProps.postId});
-      this.props.fetchComments(nextProps.postId);
-    }
+  componentDidMount() {
+    this.props.fetchComments(this.state.parentId);
   }
+
+ /* componentWillReceiveProps(nextProps) {
+    
+
+    //this.setState({postId: nextProps.postId});
+  }*/
 
   render() {
     return (
@@ -33,7 +36,6 @@ class Comments extends Component {
             </li>
           ))}
         </ul>
-
       </div>
     );
   }

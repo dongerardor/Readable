@@ -4,6 +4,7 @@ import './App.css';
 import { Redirect } from 'react-router';
 import { fetchPost, fetchCreatePost, fetchEditPost } from '../actions';
 import {default as UUID} from "node-uuid";
+import { find } from 'lodash';
 
 class PostCreateEdit extends Component {
 
@@ -29,17 +30,18 @@ class PostCreateEdit extends Component {
 
   componentDidMount(){
     if(this.props.match.params.postId){
+      this.postId = this.props.match.params.postId;
       this.submitAction = this.props.fetchEditPost;
-      this.props.fetchPost(this.props.match.params.postId);
+      this.props.fetchPost(this.postId);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.post.id !== this.state.id){
-      this.setState({
-        ...this.state,
-        ...nextProps.post
-      });
+    if(this.postId){
+      const thisPost = find(nextProps.posts, {'id': this.postId});
+      if (thisPost && thisPost.id !== this.state.id){
+        this.setState({...this.state, ...thisPost});
+      }
     }
   }
 

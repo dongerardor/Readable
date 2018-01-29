@@ -6,28 +6,19 @@ function posts(state = [], action) {
 			return action.posts;
 		case 'GET_CATEGORY_POSTS':
 			return action.category;
+		case 'GET_POST':
+			return [action.post];
+		case 'CREATE_POST':
+			return [action.post];
+		case 'EDIT_POST':
+			return [action.post];
+		case 'DELETE_POST':
+			return [action.post];
 		case 'POST_POST_VOTE':
 			const newState = state.map((post) => {
 				return post.id === action.vote.id ? action.vote : post
 			});
 			return newState;
-		case 'CREATE_POST':
-			return action.post;
-		default:
-			return state;
-	}
-}
-
-function post(state = [], action) {
-	switch (action.type) {
-		case 'GET_POST':
-			return action.post;
-		case 'CREATE_POST':
-			return action.post;
-		case 'EDIT_POST':
-			return action.post;
-		case 'DELETE_POST':
-			return action.post;
 		default:
 			return state;
 	}
@@ -46,6 +37,11 @@ function comments(state = [], action) {
 	switch (action.type) {
 		case 'GET_COMMENTS':
 			return action.comments;
+		case 'POST_COMMENT_VOTE':
+			const newState = state.map((comment) => {
+				return comment.id === action.vote.id ? action.vote : comment
+			});
+			return newState;
 		default:
 			return state;
 	}
@@ -54,6 +50,5 @@ function comments(state = [], action) {
 export default combineReducers({
 	categories,
 	posts,
-	post,
 	comments,
 });
