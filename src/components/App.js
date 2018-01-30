@@ -18,36 +18,25 @@ class App extends Component {
 				<Header/>
 				<Categories/>
 				<Switch>
-			  	<Route exact path="/post/new" component={PostCreateEdit} />
-			  	<Route path="/post/:postId/edit" component={PostCreateEdit} />
-			  	<Route path="/post/:postId/delete" component={PostDelete} />
-			  	<Route exact path="/post/:id"
+				  <Route exact path="/post/new" component={PostCreateEdit} />
+				  <Route path="/posts/:postId/delete" component={PostDelete} />
+				  <Route path="/posts/:postId/edit" component={PostCreateEdit} />
+				  <Route exact path="/post/:id"
 						render={(props) => (
-							<div>
-								<Post {...props}/>
-							</div>
+							<div><Post {...props}/></div>
 						)}
 					/>
-
-					<Route 
-						exact path="/"
+					<Route exact path="/"
 						render={(props) => (
-							<div>
-								<PostsList {...props}/>
-							</div>
+							<div><PostsList {...props}/></div>
 						)}
 					/>
-
-		      <Route 
-						path="/:category" 
-						render={(props) => (
-							<div>
-								<PostsList  {...props}/>
-							</div>
+			    <Route path="/:category" 
+			      render={(props) => (
+							<div><PostsList  {...props}/></div>
 						)}
 					/>
 				</Switch>
-		    
 		</div>
     );
   }
