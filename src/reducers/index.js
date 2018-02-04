@@ -37,6 +37,12 @@ function comments(state = [], action) {
 	switch (action.type) {
 		case 'GET_COMMENTS':
 			return action.comments;
+		case 'GET_COMMENT':
+			return [action.comment];
+		case 'CREATE_COMMENT':
+			return [action.comment];
+		case 'DELETE_COMMENT':
+			return [action.comment];
 		case 'POST_COMMENT_VOTE':
 			const newState = state.map((comment) => {
 				return comment.id === action.vote.id ? action.vote : comment

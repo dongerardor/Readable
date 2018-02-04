@@ -55,9 +55,14 @@ class PostsList extends Component {
 
   	return (
 			<div>
-			{posts.length > 1 &&
-				posts.sort((a, b) => a[this.state.orderBy] > b[this.state.orderBy]) &&
-				
+			{posts.length > 1
+				&&
+				posts.sort((a, b) => {
+					return this.state.orderBy == 'timestamp'
+						? a[this.state.orderBy] > b[this.state.orderBy]
+						: b[this.state.orderBy] < b[this.state.orderBy]
+				})
+			&&
 				<form>
 			    <label>
 	        	<input 

@@ -1,11 +1,15 @@
 export const GET_POSTS = "GET_POSTS";
 export const GET_POST = "GET_POST";
 export const GET_COMMENTS = "GET_COMMENTS";
+export const GET_COMMENT = "GET_COMMENT";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_CATEGORY_POSTS = "GET_CATEGORY_POSTS";
 export const CREATE_POST = "CREATE_POST";
+export const CREATE_COMMENT = "CREATE_COMMENT";
 export const EDIT_POST = "EDIT_POST";
+export const EDIT_COMMENT = "EDIT_COMMENT";
 export const DELETE_POST = "DELETE_POST";
+export const DELETE_COMMENT = "DELETE_COMMENT";
 export const POST_POST_VOTE = "POST_POST_VOTE";
 export const POST_COMMENT_VOTE = "POST_COMMENT_VOTE";
 
@@ -24,6 +28,11 @@ export const getComments = comments => ({
   comments
 });
 
+export const getComment = comment => ({
+  type: GET_COMMENT,
+  comment
+});
+
 export const getCategories = categories => ({
 	type: GET_CATEGORIES,
 	categories
@@ -39,13 +48,28 @@ export const createPost = post => ({
   post
 })
 
+export const createComment = comment => ({
+  type: CREATE_COMMENT,
+  comment
+})
+
 export const editPost = post => ({
   type: EDIT_POST,
   post
 })
 
+export const editComment = comment => ({
+  type: EDIT_COMMENT,
+  comment
+})
+
 export const deletePost = post => ({
   type: DELETE_POST,
+  post
+})
+
+export const deleteComment = post => ({
+  type: DELETE_COMMENT,
   post
 })
 
@@ -91,6 +115,17 @@ export const fetchComments = (postId) => async dispatch => {
     const response = await fetch(`/posts/${postId}/comments`, { headers });
     const responseBody = await response.json();
     dispatch(getComments(responseBody));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const fetchComment = (commentId) => async dispatch => {
+  try {
+    const url = `/comments/${commentId}`;
+    const response = await fetch(url, { headers });
+    const responseBody = await response.json();
+    dispatch(getComment(responseBody));
   } catch (error) {
     console.error(error);
   }
@@ -146,6 +181,34 @@ export const fetchCreatePost = (newPost) => async dispatch => {
   }
 };
 
+export const fetchCreateComment = (newComment) => async dispatch => {
+  try {
+    const url = '../../../comments';
+    await fetch(url, 
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': 'local_user',
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          'id': newComment.id,
+          'timestamp': newComment.timestamp,
+          'body': newComment.body,
+          'author': newComment.author,
+          'parentId': newComment.parentId,
+        })
+      })
+      .then((resp) => resp.json())
+      .then(function(data) {
+        dispatch(createComment(data));
+      })    
+  } catch (error) {
+      console.error(error);
+  }
+};
+
 export const fetchEditPost = (editedPost) => async dispatch => {
   try {
     const url = `../../posts/${editedPost.id}`;
@@ -175,6 +238,31 @@ export const fetchEditPost = (editedPost) => async dispatch => {
   }
 };
 
+export const fetchEditComment = (editedComment) => async dispatch => {
+  try {
+    const url = `/comments/${editedComment.id}`;
+    await fetch(url, 
+    {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'local_user',
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'timestamp': editedComment.timestamp,
+        'body': editedComment.body,
+      })
+    })
+    .then((resp) => resp.json())
+    .then(function(data) {
+      dispatch(editComment(data));
+    })    
+  } catch (error) {
+      console.error(error);
+  }
+};
+
 export const fetchDeletePost = (deletedPostId) => async dispatch => {
   try {
     const url = `../../posts/${deletedPostId}`;
@@ -196,11 +284,33 @@ export const fetchDeletePost = (deletedPostId) => async dispatch => {
   }
 };
 
-//vote is a string ('upVote' or 'downVote')
-export const fetchPostPostVote = (itemType, itemId, vote) => async dispatch => {
-  const action = itemType === 'posts' ? postPostVote : postCommentVote;
+export const fetchDeleteComment = (deletedCommentId) => async dispatch => {
   try {
-    const url = `/${itemType}/${itemId}`;
+    const url = `/comments/${deletedCommentId}`;
+    await fetch(url, 
+    {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'local_user',
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((resp) => resp.json())
+    .then(function(data) {
+      dispatch(deleteComment(data));
+    })    
+  } catch (error) {
+      console.error(error);
+  }
+};
+
+//vote is a string ('upVote' or 'downVote')
+//We can vote for a Post or a Comment
+export const fetchPostPostVote = (itemType, itemId, vote) => async dispatch => {
+  const action = itemType === 'post' ? postPostVote : postCommentVote;
+  const url = itemType === 'post' ? `/posts/${itemId}` : `/comments/${itemId}`;
+  try {
     await fetch(url, 
       {
         method: 'POST',
@@ -219,3 +329,42 @@ export const fetchPostPostVote = (itemType, itemId, vote) => async dispatch => {
     console.error(error);
   }
 };
+
+//fetchComment, fetchCreateComment, fetchEditComment 
+
+/*
+
+POST /comments
+      USAGE:
+        Add a comment to a post
+
+      PARAMS:
+        id: Any unique ID. As with posts, UUID is probably the best here.
+        timestamp: timestamp. Get this however you want.
+        body: String
+        author: String
+        parentId: Should match a post id in the database.
+
+GET /comments/:id
+      USAGE:
+        Get the details for a single comment
+
+    POST /comments/:id
+      USAGE:
+        Used for voting on a comment.
+      PARAMS:
+        option - String: Either "upVote" or "downVote"
+
+    PUT /comments/:id
+      USAGE:
+        Edit the details of an existing comment
+
+      PARAMS:
+        timestamp: timestamp. Get this however you want.
+        body: String
+
+    DELETE /comments/:id
+      USAGE:
+        Sets a comment's deleted flag to 'true'
+
+*/

@@ -93,7 +93,7 @@ class PostCreateEdit extends Component {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <p className={`errMsg ${this.state.errMsg}`}>All the fields are mandatory</p>
+        <p className={`errMsg ${this.state.errMsg}`}>All fields are mandatory</p>
         <label>
           Create new post:
           <select value={this.state.category} name='category' onChange={this.handleChange} className='form-control'>

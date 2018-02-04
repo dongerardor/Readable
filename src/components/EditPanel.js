@@ -10,9 +10,23 @@ class EditPanel extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    
+
+  }
+
+  //<BrowserRouter basename="/calendar"/>
+
   render() {
     const item = this.props.item;//could be a Post or a Comment
-    const itemType = item && item.parentId ? 'comments' : 'posts';
+
+    const itemType = item.parentId ? 'comment' : 'post';
+
+    const path = itemType === 'comment' 
+      ? `/post/${item.parentId}/comment/${item.id}`
+      : `/post/${item.id}`;
+
+
     return (
       <div>
       {item && item.id &&
@@ -20,9 +34,9 @@ class EditPanel extends Component {
           <button onClick={() => this.props.vote(itemType, item.id, 'upVote')}>Vote up</button>
           <button onClick={() => this.props.vote(itemType, item.id, 'downVote')}>Vote down</button>
           &nbsp;
-          <Link to={`/${itemType}/${item.id}/edit`}>Edit</Link>
+          <Link to={`${path}/edit`}>Edit</Link>
           &nbsp;
-          <Link to={`/${itemType}/${item.id}/delete`}>Delete</Link>
+          <Link to={`${path}/delete`}>Delete</Link>
         </div>
       }
       </div>

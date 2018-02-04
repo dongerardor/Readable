@@ -8,34 +8,33 @@ class Comments extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { 'parentId': props.postId };
+    this.state = {};
+    this.props.fetchComments(this.props.postId);
   }
 
-  componentDidMount() {
-    this.props.fetchComments(this.state.parentId);
+  componentWillReceiveProps(nextProps) {
+    this.setState({ comments: [ ...nextProps.comments ] });
   }
-
- /* componentWillReceiveProps(nextProps) {
-    
-
-    //this.setState({postId: nextProps.postId});
-  }*/
 
   render() {
+    const comments = this.state && this.state.comments;
     return (
-      <div className="post">
-        <hr/>
-        <h6>Comments</h6>
-
-        <ul className='commentsList'>
-          {this.props.comments
-            .filter(comment => !comment.parentDeleted && !comment.deleted)
-            .map((comment) => (
-            <li key={comment.id}>
-              <Comment comment={comment}/>
-            </li>
-          ))}
-        </ul>
+      <div className="comments">
+        {comments && 
+          <div>
+            <hr/>
+            <h6>Comments</h6>
+            <ul className='commentsList'>
+              {comments
+                .filter(comment => !comment.parentDeleted && !comment.deleted)
+                .map((comment) => (
+                <li key={comment.id}>
+                  <Comment comment={comment}/>
+                </li>
+              ))}
+            </ul>
+          </div>
+        }
       </div>
     );
   }
