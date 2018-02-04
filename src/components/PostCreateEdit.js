@@ -54,7 +54,7 @@ class PostCreateEdit extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const postId = this.state.id ? this.state.id : UUID.v4(),
+    const postId = this.state.id ? this.state.id : UUID.v4().substring(0,8),
       postTimestamp = this.state.timestamp ? this.state.timestamp : Date.now(),
       newPost = {
         ...this.state,
@@ -88,7 +88,7 @@ class PostCreateEdit extends Component {
   render() {
 
     if (this.state.redirect && this.state.id) {
-       return <Redirect to={`/post/${this.state.id}`}/>;
+       return <Redirect to={`/${this.state.category}/${this.state.id}`}/>;
     }
 
     return (

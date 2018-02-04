@@ -19,6 +19,7 @@ class CommentCreateEdit extends Component {
       formValid: false,
       errMsg: '',
       redirect: false,
+      category: props.match.params.category || '',
     };
 
     this.showErrMsg = '';
@@ -56,7 +57,7 @@ class CommentCreateEdit extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const commentId = this.state.id ? this.state.id : UUID.v4(),
+    const commentId = this.state.id ? this.state.id : UUID.v4().substring(0,8),
       commentTimestamp = this.state.timestamp ? this.state.timestamp : Date.now(),
       newComment = {
         ...this.state,
@@ -88,7 +89,7 @@ class CommentCreateEdit extends Component {
   render() {
 
     if (this.state.redirect && this.state.id) {
-       return <Redirect to={`/post/${this.state.parentId}`}/>;
+       return <Redirect to={`/${this.state.category}/${this.state.parentId}`}/>;
     }
 
     const authorDisabled = this.state.id ? 'disabled' : '';

@@ -43,7 +43,7 @@ class Post extends Component {
           <p>Votes: {this.state.voteScore}</p>
           <p>Comments: {this.state.commentCount}</p>
           <EditPanel item={this.state}/>
-          <Link to={`/post/${this.state.id}/comment/new`}>Add new comment</Link>
+          <Link to={`/${this.state.category}/${this.state.id}/comment/new`}>Add new comment</Link>
           <Comments postId={this.state.id}/>
         </div>
       }

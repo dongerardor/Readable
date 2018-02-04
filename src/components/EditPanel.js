@@ -10,22 +10,14 @@ class EditPanel extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    
-
-  }
-
-  //<BrowserRouter basename="/calendar"/>
-
   render() {
     const item = this.props.item;//could be a Post or a Comment
-
     const itemType = item.parentId ? 'comment' : 'post';
+    const category = item.parentId ? this.props.posts.find(post => post.id==item.parentId).category : item.category;
 
     const path = itemType === 'comment' 
-      ? `/post/${item.parentId}/comment/${item.id}`
-      : `/post/${item.id}`;
-
+      ? `/${category}/${item.parentId}/comment/${item.id}`
+      : `/${category}/${item.id}`;
 
     return (
       <div>

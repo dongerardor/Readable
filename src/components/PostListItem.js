@@ -16,7 +16,7 @@ class PostsListItem extends Component {
   				{this.props && this.props.postItem &&
 				<div className="postListItem">
 	        		<h1>
-	        			<Link to={`post/${this.props.postItem.id}`}>{this.props.postItem.title}</Link>
+	        			<Link to={`/${this.props.postItem.category}/${this.props.postItem.id}`}>{this.props.postItem.title}</Link>
 					</h1>
 
 					<p className="author">{this.props.postItem.author}</p>

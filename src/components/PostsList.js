@@ -16,7 +16,6 @@ class PostsList extends Component {
   	};
 	}
 
-
 	setCurrentCategory(category){
 		const currentCategory = category || 'All';
 
