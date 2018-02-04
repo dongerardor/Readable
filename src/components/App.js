@@ -17,7 +17,7 @@ class App extends Component {
     return (
 	  	<div className="App">
 				<Header/>
-				<Categories/>
+				<Route path="/" component={Categories} />
 				<Switch>
 				  <Route exact path="/post/new" component={PostCreateEdit} />
 				  <Route path="/post/:postId/delete" component={PostDelete} />
