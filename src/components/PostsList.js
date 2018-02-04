@@ -59,7 +59,7 @@ class PostsList extends Component {
 				posts.sort((a, b) => {
 					return this.state.orderBy == 'timestamp'
 						? a[this.state.orderBy] > b[this.state.orderBy]
-						: b[this.state.orderBy] < b[this.state.orderBy]
+						: a[this.state.orderBy] < b[this.state.orderBy]
 				})
 			&&
 				<form>
