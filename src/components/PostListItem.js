@@ -13,7 +13,7 @@ class PostsListItem extends Component {
 	render() {
   		return (
   			<div>
-  				{this.props && this.props.postItem &&
+  				{this.props && this.props.postItem && this.props.postItem.id &&
 				<div className="postListItem">
 	        		<h1>
 	        			<Link to={`/${this.props.postItem.category}/${this.props.postItem.id}`}>{this.props.postItem.title}</Link>

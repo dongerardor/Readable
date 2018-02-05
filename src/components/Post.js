@@ -34,6 +34,12 @@ class Post extends Component {
   render() {
     return (
       <div>
+      {this.props.posts === null &&
+        <div>
+          <h6>This post no longer exists</h6>
+          <Link to={'/'}>Continue</Link>
+        </div>
+      }
       {this.state.id &&
         <div className="post">
           <p>Created on {this.formatDate(this.state.timestamp)}</p>

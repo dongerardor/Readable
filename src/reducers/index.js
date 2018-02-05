@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { isEmpty } from 'lodash';
 
 function posts(state = [], action) {
 	switch (action.type) {
@@ -7,7 +8,7 @@ function posts(state = [], action) {
 		case 'GET_CATEGORY_POSTS':
 			return action.category;
 		case 'GET_POST':
-			return [action.post];
+			return isEmpty(action.post) ? null : [action.post];
 		case 'CREATE_POST':
 			return [action.post];
 		case 'EDIT_POST':
