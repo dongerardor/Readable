@@ -1,3 +1,7 @@
+////////////////////////////////////////////////////
+//Action constants
+////////////////////////////////////////////////////
+
 export const GET_POSTS = "GET_POSTS";
 export const GET_POST = "GET_POST";
 export const GET_COMMENTS = "GET_COMMENTS";
@@ -13,6 +17,10 @@ export const DELETE_COMMENT = "DELETE_COMMENT";
 export const POST_POST_VOTE = "POST_POST_VOTE";
 export const POST_COMMENT_VOTE = "POST_COMMENT_VOTE";
 
+
+////////////////////////////////////////////////////
+//Action function definitions
+////////////////////////////////////////////////////
 export const getPosts = posts => ({
   type: GET_POSTS,
   posts
@@ -84,6 +92,9 @@ export const postCommentVote = vote => ({
 });
 
 
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
 
 const headers = {
   'Authorization': 'local_user'
@@ -329,42 +340,3 @@ export const fetchPostPostVote = (itemType, itemId, vote) => async dispatch => {
     console.error(error);
   }
 };
-
-//fetchComment, fetchCreateComment, fetchEditComment 
-
-/*
-
-POST /comments
-      USAGE:
-        Add a comment to a post
-
-      PARAMS:
-        id: Any unique ID. As with posts, UUID is probably the best here.
-        timestamp: timestamp. Get this however you want.
-        body: String
-        author: String
-        parentId: Should match a post id in the database.
-
-GET /comments/:id
-      USAGE:
-        Get the details for a single comment
-
-    POST /comments/:id
-      USAGE:
-        Used for voting on a comment.
-      PARAMS:
-        option - String: Either "upVote" or "downVote"
-
-    PUT /comments/:id
-      USAGE:
-        Edit the details of an existing comment
-
-      PARAMS:
-        timestamp: timestamp. Get this however you want.
-        body: String
-
-    DELETE /comments/:id
-      USAGE:
-        Sets a comment's deleted flag to 'true'
-
-*/

@@ -33,13 +33,3 @@ function mapStateToProps (props) {
 }
 
 export default Comment = connect(mapStateToProps)(Comment);
-
-/*
-
-    POST /comments/:id
-      USAGE:
-        Used for voting on a comment.
-      PARAMS:
-        option - String: Either "upVote" or "downVote"
-
-*/

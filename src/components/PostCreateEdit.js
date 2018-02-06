@@ -122,26 +122,3 @@ function mapStateToProps (props) {
 const mapDispatchToProps = { fetchPost, fetchCreatePost, fetchEditPost };
 
 export default PostCreateEdit = connect(mapStateToProps, mapDispatchToProps)(PostCreateEdit);
-
-
-/*
-
-POST /posts
-      USAGE:
-        Add a new post
-
-      PARAMS:
-        id - UUID should be fine, but any unique id will work
-        timestamp - timestamp in whatever format you like, you can use Date.now() if you like
-        title - String
-        body - String
-        author - String
-        category: Any of the categories listed in categories.js. Feel free to extend this list as you desire.
-
-    PUT /posts/:id
-      USAGE:
-        Edit the details of an existing post
-      PARAMS:
-        title - String
-        body - String
-*/

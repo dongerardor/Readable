@@ -26,5 +26,4 @@ class PostPreview extends Component {
   }
 }
 
-
 export default PostPreview;

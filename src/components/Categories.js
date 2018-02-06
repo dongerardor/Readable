@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import './App.css';
 import { fetchCategories } from '../actions'
 import { Link, Route, Switch } from 'react-router-dom';
-import Footer from './Footer';
 import { find } from 'lodash';
 
 class Categories extends Component {

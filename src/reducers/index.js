@@ -10,9 +10,7 @@ function posts(state = [], action) {
 		case 'GET_POST':
 			return isEmpty(action.post) ? null : [action.post];
 		case 'CREATE_POST':
-			return [action.post];
 		case 'EDIT_POST':
-			return [action.post];
 		case 'DELETE_POST':
 			return [action.post];
 		case 'POST_POST_VOTE':
@@ -39,9 +37,7 @@ function comments(state = [], action) {
 		case 'GET_COMMENTS':
 			return action.comments;
 		case 'GET_COMMENT':
-			return [action.comment];
 		case 'CREATE_COMMENT':
-			return [action.comment];
 		case 'DELETE_COMMENT':
 			return [action.comment];
 		case 'POST_COMMENT_VOTE':
