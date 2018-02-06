@@ -25,10 +25,8 @@ class EditPanel extends Component {
         <div className="editPanel">
           <button onClick={() => this.props.vote(itemType, item.id, 'upVote')}>Vote up</button>
           <button onClick={() => this.props.vote(itemType, item.id, 'downVote')}>Vote down</button>
-          &nbsp;
-          <Link to={`${path}/edit`}>Edit</Link>
-          &nbsp;
-          <Link to={`${path}/delete`}>Delete</Link>
+          <button><Link to={`${path}/edit`}>Edit</Link></button>
+          <button><Link to={`${path}/delete`}>Delete</Link></button>
         </div>
       }
       </div>

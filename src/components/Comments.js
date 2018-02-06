@@ -23,7 +23,6 @@ class Comments extends Component {
         {comments && 
           <div>
             <hr/>
-            <h6>Comments</h6>
             <ul className='commentsList'>
               {comments
                 .filter(comment => !comment.parentDeleted && !comment.deleted)

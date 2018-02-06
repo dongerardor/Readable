@@ -86,7 +86,7 @@ class PostsList extends Component {
 			 }
 
 				<hr/>
-				<Link to={'post/new'}>Create new post</Link>
+				<Link to={'post/new'} className='btn_create'>Create new post</Link>
 
         <ul className='postsList'>
 					{posts.map((post) => (

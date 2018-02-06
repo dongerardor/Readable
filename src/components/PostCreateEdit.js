@@ -94,22 +94,21 @@ class PostCreateEdit extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <p className={`errMsg ${this.state.errMsg}`}>All fields are mandatory</p>
-        <label>
-          Create new post:
-          <select value={this.state.category} name='category' onChange={this.handleChange} className='form-control'>
-              <option key='no-category' value=''>Select category</option>
-            {this.props.categories.map((category) => 
-              <option key={category.name} value={category.name}>{category.name}</option>
-            )}
-          </select>
-        </label>
-
-        <br />
-
-        <label>Author:  <input name="author"    value={this.state.author}   onChange={this.handleChange} className='form-control' /></label><br />
-        <label>Title:   <input name="title"     value={this.state.title}    onChange={this.handleChange} className='form-control' /></label><br />
-        <label>Body:    <textarea name="body"   value={this.state.body}     onChange={this.handleChange} className='form-control' /></label><br />
-
+        <h3>Create new post</h3>
+        <p>Category:</p>
+        <select value={this.state.category} name='category' onChange={this.handleChange} className='form-control'>
+            <option key='no-category' value=''>Select category</option>
+          {this.props.categories.map((category) => 
+            <option key={category.name} value={category.name}>{category.name}</option>
+          )}
+        </select>
+        <p>Author:</p>
+        <input name="author" value={this.state.author} onChange={this.handleChange} className='form-control' />
+        <p>Title:</p>
+        <input name="title" value={this.state.title} onChange={this.handleChange} className='form-control' />
+        <p>Body:</p>
+        <textarea name="body" value={this.state.body} onChange={this.handleChange} className='form-control' />
+        <br/>
         <input type="submit" value="Submit" />
       </form>
     );

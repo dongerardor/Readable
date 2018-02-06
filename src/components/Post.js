@@ -42,14 +42,12 @@ class Post extends Component {
       }
       {this.state.id &&
         <div className="post">
-          <p>Created on {this.formatDate(this.state.timestamp)}</p>
-          <h6>By {this.state.author}</h6>
+          <p className='postDate'>Created on {this.formatDate(this.state.timestamp)} by {this.state.author}</p>
           <h3>{this.state.title}</h3>
-          <p>{this.state.body}</p>
-          <p>Votes: {this.state.voteScore}</p>
-          <p>Comments: {this.state.commentCount}</p>
+          <p className='postBody'>{this.state.body}</p>
+          <h6>This post has {this.state.voteScore} votes and {this.state.commentCount} comments</h6>
           <EditPanel item={this.state}/>
-          <Link to={`/${this.state.category}/${this.state.id}/comment/new`}>Add new comment</Link>
+          <Link to={`/${this.state.category}/${this.state.id}/comment/new`} className='btn_create'>Add new comment</Link>
           <Comments postId={this.state.id}/>
         </div>
       }

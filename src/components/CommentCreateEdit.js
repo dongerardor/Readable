@@ -97,8 +97,11 @@ class CommentCreateEdit extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <p className={`errMsg ${this.state.errMsg}`}>All fields are mandatory</p>
-        <label>Author:  <input name="author"    value={this.state.author}   onChange={this.handleChange} className='form-control' disabled={authorDisabled}/></label><br />
-        <label>Body:    <textarea name="body"   value={this.state.body}     onChange={this.handleChange} className='form-control' /></label><br />
+        <p>Author:</p>
+        <input name="author" value={this.state.author} onChange={this.handleChange} className='form-control' disabled={authorDisabled}/>
+        <p>Body:</p>
+        <textarea name="body" value={this.state.body} onChange={this.handleChange} className='form-control' />
+        <br/>
         <input type="submit" value="Submit" />
       </form>
     );

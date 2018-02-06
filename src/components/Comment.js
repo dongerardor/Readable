@@ -18,10 +18,9 @@ class Comment extends Component {
   render() {
     return (
       <div className="comment">
-        <p>Commented on {this.formatDate(this.props.comment.timestamp)}</p>
-        <p>{this.props.comment.body}</p>
-        <p>Commented by {this.props.comment.author}</p>
-        <p>Votes: {this.props.comment.voteScore}</p>
+        <p className='commentDate'>Commented on {this.formatDate(this.props.comment.timestamp)} by {this.props.comment.author}</p>
+        <p className='commentBody'>{this.props.comment.body}</p>
+        <h6>Votes: {this.props.comment.voteScore}</h6>
         <EditPanel item={this.props.comment}/>
         <hr/>
       </div>  
